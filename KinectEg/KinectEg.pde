@@ -24,7 +24,7 @@ void setup()
   ball2 = new Ball();
   ball3 = new Ball();
   ball4 = new Ball();
-  //rectMode(CENTER);
+  rectMode(CENTER);
   
   //location = new PVector(100,100);
   //velocity = new PVector(1.5,2.1);
@@ -102,8 +102,8 @@ void drawPosition(SkeletonData _s)
   String s1 = str(_s.dwTrackingID);
   text(s1, _s.position.x*width, _s.position.y*height);
   //println(_s.position.x*width/2);
-  //rect(_s.position.x*width/2, _s.position.y*height/2, 20, 20);
-  //rect(_s.skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].x*width, _s.skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].y*height, 20, 20);
+  //rect(_s.position.x*width, _s.position.y*height, 20, 20);
+  rect(_s.skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].x*width, _s.skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].y*height, 20, 20);
   
 }
 
