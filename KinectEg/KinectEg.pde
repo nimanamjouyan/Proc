@@ -4,84 +4,94 @@ import kinect4WinSDK.SkeletonData;
 Kinect kinect;
 ArrayList <SkeletonData> bodies;
 SkeletonData _myS;
-
-PVector location;  // Location of shape
-PVector velocity;  // Velocity of shape
-PVector gravity;   // Gravity acts at the shape's acceleration
+Ball ball;
+Ball ball2;
+Ball ball3;
+Ball ball4;
+//PVector location;  // Location of shape
+//PVector velocity;  // Velocity of shape
+//PVector gravity;   // Gravity acts at the shape's acceleration
 
 
 void setup()
 {
   size(640, 480);
-  background(0);
   kinect = new Kinect(this);
-  smooth();
+  //smooth(8);
   bodies = new ArrayList<SkeletonData>();
-  rectMode(CENTER);
+  imageMode(CENTER);
+  ball = new Ball();
+  ball2 = new Ball();
+  ball3 = new Ball();
+  ball4 = new Ball();
+  //rectMode(CENTER);
   
-  location = new PVector(100,100);
-  velocity = new PVector(1.5,2.1);
-  gravity = new PVector(0,0.2);
+  //location = new PVector(100,100);
+  //velocity = new PVector(1.5,2.1);
+  //gravity = new PVector(0,0.2);
 }
 
 void draw()
 {
-  background(0);
-
-  BBall();  
-  //image(kinect.GetImage(), 320, 0, 320, 240);
-  //image(kinect.GetDepth(), 320, 240, 320, 240);
-  //image(kinect.GetMask(), 0, 240, 320, 240);
+  background(255);
+  ball.run();
+  ball2.run();
+  ball3.run();
+  ball4.run();
+  //image(kinect.GetImage(),width/2, height/2);
+  //image(kinect.GetDepth(), width/2, height/2);
+  image(kinect.GetMask(), width/2, height/2);
+  tint(100);
   for (int i=0; i<bodies.size (); i++) 
   {
     drawSkeleton(bodies.get(i));
     drawPosition(bodies.get(i));
     
-       if ((abs(location.x - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].x*width) <= 24) && (abs(location.y - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].y*height) <= 24)) {
-    velocity.x = -velocity.x;
-    velocity.y = 0.95*velocity.y;
-  }
-  
-   if ((abs(location.x - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_LEFT].x*width) <= 24) && (abs(location.y - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_LEFT].y*height) <= 24)) {
-    velocity.x = -velocity.x;
-    velocity.y = 0.95*velocity.y;
-  }
-  }
-}
-
-
-void BBall() {
-  
-  // Add velocity to the location.
-  location.add(velocity);
-  // Add gravity to velocity
-  //velocity.add(gravity);
-  //for (int i=0; i<bodies.size (); i++){ 
-  // Bounce off edges
- 
-  if ((location.x > width) || (location.x < 0)) {
-    velocity.x = -velocity.x;
-  }
-
-  if ((location.y > height) || (location.y < 0)) {
-    // We're reducing velocity ever so slightly 
-    // when it hits the bottom of the window
-    velocity.y = -0.95*velocity.y; 
-    //location.y = height;
-  }
-  
-  // if ((abs(location.x - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].x*width) <= 24) && (abs(location.y - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].y*height) <= 24)) {
+  //     if ((abs(location.x - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].x*width) <= 24) && (abs(location.y - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].y*height) <= 24)) {
   //  velocity.x = -velocity.x;
-  //  velocity.y = -velocity.y;
-  //}
-   //Display circle at location vector
-  stroke(255);
-  strokeWeight(2);
-  fill(127);
-  ellipse(location.x,location.y,48,48);
+  //  velocity.y = 0.95*velocity.y;
   //}
   
+  // if ((abs(location.x - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_LEFT].x*width) <= 24) && (abs(location.y - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_LEFT].y*height) <= 24)) {
+  //  velocity.x = -velocity.x;
+  //  velocity.y = 0.95*velocity.y;
+  //}
+  }
 }
+
+
+//void BBall() {
+  
+//  // Add velocity to the location.
+//  location.add(velocity);
+//  // Add gravity to velocity
+//  //velocity.add(gravity);
+//  //for (int i=0; i<bodies.size (); i++){ 
+//  // Bounce off edges
+ 
+//  if ((location.x > width) || (location.x < 0)) {
+//    velocity.x = -velocity.x;
+//  }
+
+//  if ((location.y > height) || (location.y < 0)) {
+//    // We're reducing velocity ever so slightly 
+//    // when it hits the bottom of the window
+//    velocity.y = -0.95*velocity.y; 
+//    //location.y = height;
+//  }
+  
+//  // if ((abs(location.x - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].x*width) <= 24) && (abs(location.y - bodies.get(i).skeletonPositions[Kinect.NUI_SKELETON_POSITION_HAND_RIGHT].y*height) <= 24)) {
+//  //  velocity.x = -velocity.x;
+//  //  velocity.y = -velocity.y;
+//  //}
+//   //Display circle at location vector
+//  stroke(255);
+//  strokeWeight(2);
+//  fill(127);
+//  ellipse(location.x,location.y,48,48);
+//  //}
+  
+//}
 
 
 
@@ -228,5 +238,53 @@ void moveEvent(SkeletonData _b, SkeletonData _a)
         break;
       }
     }
+  }
+}
+
+class Ball {
+  
+  private PVector pos;
+  private PVector vel;
+  private PVector accl;
+  
+  private float expiration;
+  private float rad;
+  
+   Ball(){
+    rad = 8;
+    accl = new PVector(0, 0.05);
+    vel = new PVector(random(-1, 1), random(-2, 0));
+    pos = new PVector(random(0, width), rad + 5);
+    expiration = 500;
+    
+  }
+    void run() {
+    update();
+    display();
+    hit();
+  }
+
+  // Method to update position
+  void update() {
+    vel.add(accl);
+    pos.add(vel);
+    expiration -= 1.0;
+  }
+
+  // Method to display
+  void display() {
+    stroke(0, expiration);
+    fill(0, expiration);
+    ellipse(pos.x, pos.y, rad, rad);
+  }
+  
+  //Hit detection method
+  void hit(){
+  if (pos.x > width-rad || pos.x < rad) {
+      vel.x *= -0.8;
+    }
+  if (pos.y > height-rad || pos.y < rad) {
+    vel.y *= -0.8;
+  }    
   }
 }
